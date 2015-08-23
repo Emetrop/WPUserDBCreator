@@ -53,12 +53,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="id-usermeta" class="col-sm-3 control-label">Usermeta start ID:</label>
-                    <div class="col-sm-9">
-                    <input type="number" id="id-usermeta" class="form-control" name="id-usermeta" value="9000">
-                    </div>
-                </div>
-                <div class="form-group">
                     <label for="prefix" class="col-sm-3 control-label">Table prefix:</label>
                     <div class="col-sm-9">
                     <input type="text" id="prefix" class="form-control" name="prefix" value="wp_">
@@ -70,39 +64,35 @@
         </div>
 
         <?php
-
-        if( ! empty( $_POST['submit'] ) )
-        {
+        if( ! empty( $_POST['submit'] ) ) :
             require 'PasswordHash.php';
 
             $hasher = new PasswordHash( 8, true );
             $hashedPass = $hasher->HashPassword( $_POST['pass'] );
-
-            $userId = $_POST['id-usermeta'];
-            ?>
+        ?>
         <div class="col-sm-12">
 <pre>
 INSERT INTO <?php echo $_POST['prefix'] ?>users (ID, user_login, user_pass, user_nicename, user_email, user_url, user_registered, user_activation_key, user_status, display_name) VALUES
 (<?php echo $_POST['id'] ?>, '<?php echo $_POST['login'] ?>', '<?php echo $hashedPass ?>', '<?php echo $_POST['login'] ?>', '<?php echo $_POST['email'] ?>', '', '<?php echo date( 'Y-m-d H:i:s' ) ?>', '', 0, '<?php echo $_POST['login'] ?>');
 
-INSERT INTO <?php echo $_POST['prefix'] ?>usermeta (umeta_id, user_id, meta_key, meta_value) VALUES
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'nickname', '<?php echo $_POST['login'] ?>'),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'first_name', ''),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'last_name', ''),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'description', ''),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'rich_editing', 'true'),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'comment_shortcuts', 'false'),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'admin_color', 'fresh'),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'use_ssl', '0'),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'show_admin_bar_front', 'true'),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, '<?php echo $_POST['prefix'] ?>capabilities', 'a:1:{s:<?php echo strlen( $_POST['role'] ) ?>:"<?php echo $_POST['role'] ?>";b:1;}'),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, '<?php echo $_POST['prefix'] ?>user_level', '10'),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'dismissed_wp_pointers', 'wp350_media,wp360_revisions,wp360_locks,wp390_widgets'),
-(<?php echo $userId++; ?>, <?php echo $_POST['id'] ?>, 'show_welcome_panel', '1');
+INSERT INTO <?php echo $_POST['prefix'] ?>usermeta (user_id, meta_key, meta_value) VALUES
+(<?php echo $_POST['id'] ?>, 'nickname', '<?php echo $_POST['login'] ?>'),
+(<?php echo $_POST['id'] ?>, 'first_name', ''),
+(<?php echo $_POST['id'] ?>, 'last_name', ''),
+(<?php echo $_POST['id'] ?>, 'description', ''),
+(<?php echo $_POST['id'] ?>, 'rich_editing', 'true'),
+(<?php echo $_POST['id'] ?>, 'comment_shortcuts', 'false'),
+(<?php echo $_POST['id'] ?>, 'admin_color', 'fresh'),
+(<?php echo $_POST['id'] ?>, 'use_ssl', '0'),
+(<?php echo $_POST['id'] ?>, 'show_admin_bar_front', 'true'),
+(<?php echo $_POST['id'] ?>, '<?php echo $_POST['prefix'] ?>capabilities', 'a:1:{s:<?php echo strlen( $_POST['role'] ) ?>:"<?php echo $_POST['role'] ?>";b:1;}'),
+(<?php echo $_POST['id'] ?>, '<?php echo $_POST['prefix'] ?>user_level', '10'),
+(<?php echo $_POST['id'] ?>, 'dismissed_wp_pointers', 'wp350_media,wp360_revisions,wp360_locks,wp390_widgets'),
+(<?php echo $_POST['id'] ?>, 'show_welcome_panel', '1');
 </pre>
             <hr>
         </div>
-        <?php } ?>
+        <?php endif; ?>
     </div>
 </div>
 </body>
